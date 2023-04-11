@@ -18,7 +18,7 @@ namespace PFGWS.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecastacion")]
+        [HttpGet(Name = "GetWeatherForecastacionn")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -29,5 +29,6 @@ namespace PFGWS.Controllers
             })
             .ToArray();
         }
+
     }
 }
