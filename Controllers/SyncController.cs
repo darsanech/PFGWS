@@ -5,14 +5,16 @@ using Dotmim.Sync.Sqlite;
 using Dotmim.Sync.SqlServer;
 using SQLite;
 using PFGWS.Models;
+using System.IO;
+using Microsoft.VisualBasic.FileIO;
 
 namespace PFGWS.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class OtroController : ControllerBase
+    public class SyncController : ControllerBase
     {
-        private readonly ILogger<OtroController> _logger;
+        private readonly ILogger<SyncController> _logger;
         static SQLiteAsyncConnection db;
 
 
@@ -21,7 +23,10 @@ namespace PFGWS.Controllers
             try
             {
                 // Get an absolute path to the database file
-                var databasePath = Path.Combine(@"sqlite\MyData.db");
+                //var databasePath = Path.Combine(@"sqlite\MyData.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+
+
 
                 db = new SQLiteAsyncConnection(databasePath);
 
@@ -37,7 +42,7 @@ namespace PFGWS.Controllers
 
         }
 
-        public OtroController(ILogger<OtroController> logger)
+        public SyncController(ILogger<SyncController> logger)
         {
             
             _logger = logger;
@@ -47,7 +52,9 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                SqliteSyncProvider clientProvider = new SqliteSyncProvider("sqlite/MyData.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+
+                SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
                 var setup = new SyncSetup("Reserva");
 
                 var agent = new SyncAgent(clientProvider, serverProvider);
@@ -69,9 +76,9 @@ namespace PFGWS.Controllers
             {
                 await Init();
                 await LoadData();
+                var path = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyData2.db");
 
-                var path = Path.Combine(@"sqlite\MyData.db");
-                var path2 = Path.Combine(@"sqlite\MyData2.db");
                 if (System.IO.File.Exists(path2))
                 {
                     System.IO.File.Delete(path2);
