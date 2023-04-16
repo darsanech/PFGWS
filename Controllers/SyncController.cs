@@ -30,7 +30,12 @@ namespace PFGWS.Controllers
 
                 db = new SQLiteAsyncConnection(databasePath);
 
+                await db.CreateTableAsync<Camping>();
                 await db.CreateTableAsync<Reserva>();
+                await db.CreateTableAsync<Cliente>();
+                await db.CreateTableAsync<Estado>();
+                await db.CreateTableAsync<Producto>();
+                await db.CreateTableAsync<User>();
 
 
                 await db.CloseAsync();
