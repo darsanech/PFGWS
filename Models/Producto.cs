@@ -8,4 +8,3 @@ namespace PFGWS.Models
         public string NomProducte { get; set; }
     }
 }
-}
