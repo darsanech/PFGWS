@@ -55,7 +55,7 @@ namespace PFGWS.Controllers
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
 
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
-                var setup = new SyncSetup("Reserva");
+                var setup = new SyncSetup("Reserva","Camping","Cliente","Estado","Producte","Users");
 
                 var agent = new SyncAgent(clientProvider, serverProvider);
                 var s1 = await agent.SynchronizeAsync(setup);
