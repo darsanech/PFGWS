@@ -62,10 +62,11 @@ namespace PFGWS.Controllers
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
-                var tablas = new string[] { "Reserva", "Camping", "Cliente", "Estado", "Producto", "Users" };
-                
-                var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
 
+                //var tablas = new string[] { "Reserva", "Camping", "Cliente", "Estado", "Producto", "Users" ,"EstadoProducto","Parcela"};
+                /*
+                var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
+                
                 // Deprovision everything
                 var p = SyncProvision.StoredProcedures | SyncProvision.TrackingTable |
                         SyncProvision.Triggers;
@@ -74,13 +75,13 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
-
                 
-                var setup = new SyncSetup(tablas);
-
+                */
+                //var setup = new SyncSetup(tablas);
+                
                 var agent = new SyncAgent(clientProvider, serverProvider);
                 //var s1 = await agent.SynchronizeAsync(setup);
-                //var result = await agent.SynchronizeAsync();
+                var result = await agent.SynchronizeAsync();
                 agent.Dispose();
             }
             catch (Exception ex)
