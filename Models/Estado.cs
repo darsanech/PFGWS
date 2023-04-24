@@ -4,7 +4,9 @@ namespace PFGWS.Models
 {
     public class Estado
     {
-        [PrimaryKey, Column("estado")]
-        public string TipoEstado { get; set; }
+        [PrimaryKey, AutoIncrement, Column("estadoid")]
+        public int estadoid { get; set; }
+        [Column("estadoname")]
+        public string estadoname { get; set; }
     }
 }

@@ -5,9 +5,11 @@ namespace PFGWS.Models
     [SQLite.Table("Users")]
     public class User
     {
-        [PrimaryKey, Column("username")]
+        [PrimaryKey, AutoIncrement, Column("userid")]
+        public int userid { get; set; }
+        [Column("username")]
         public string Username { get; set; }
-        [Column("password")]
-        public string password { get; set; }
+        [Column("pass")]
+        public string Password { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using SQLite;
 using PFGWS.Models;
 using System.IO;
 using Microsoft.VisualBasic.FileIO;
+using Dotmim.Sync.Enumerations;
 
 namespace PFGWS.Controllers
 {
@@ -25,6 +26,7 @@ namespace PFGWS.Controllers
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyData.db");
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+                System.IO.File.Delete(databasePath);
 
 
 
@@ -33,9 +35,10 @@ namespace PFGWS.Controllers
                 await db.CreateTableAsync<Camping>();
                 await db.CreateTableAsync<Reserva>();
                 await db.CreateTableAsync<Cliente>();
-                await db.CreateTableAsync<Estado>();
+                await db.CreateTableAsync<EstadoProducto>();
                 await db.CreateTableAsync<Producto>();
                 await db.CreateTableAsync<User>();
+
 
 
                 await db.CloseAsync();
@@ -58,13 +61,26 @@ namespace PFGWS.Controllers
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
-
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
-                var setup = new SyncSetup("Reserva","Camping","Cliente","Estado","Producto","Users");
+                var tablas = new string[] { "Reserva", "Camping", "Cliente", "Estado", "Producto", "Users" };
+                
+                var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
+
+                // Deprovision everything
+                var p = SyncProvision.StoredProcedures | SyncProvision.TrackingTable |
+                        SyncProvision.Triggers;
+
+                // Deprovision everything
+                var localOrchestrator = new LocalOrchestrator(clientProvider);
+                await remoteOrchestrator.DropAllAsync();
+                await localOrchestrator.DropAllAsync();
+
+                
+                var setup = new SyncSetup(tablas);
 
                 var agent = new SyncAgent(clientProvider, serverProvider);
-                var s1 = await agent.SynchronizeAsync(setup);
-                var result = await agent.SynchronizeAsync();
+                //var s1 = await agent.SynchronizeAsync(setup);
+                //var result = await agent.SynchronizeAsync();
                 agent.Dispose();
             }
             catch (Exception ex)

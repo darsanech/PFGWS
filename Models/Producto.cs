@@ -4,7 +4,9 @@ namespace PFGWS.Models
 {
     public class Producto
     {
-        [PrimaryKey, Column("producto")]
-        public string NomProducte { get; set; }
+        [PrimaryKey, AutoIncrement, Column("producteid")]
+        public int producteid { get; set; }
+        [Column("productoname")]
+        public string productoname { get; set; }
     }
 }

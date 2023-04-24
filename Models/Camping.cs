@@ -4,7 +4,9 @@ namespace PFGWS.Models
 {
     public class Camping
     {
-        [PrimaryKey, Column("camping")]
-        public string NomCamping { get; set; }
+        [PrimaryKey, AutoIncrement, Column("campingid")]
+        public int campingid { get; set; }
+        [Column("campingname")]
+        public string campingname { get; set; }
     }
 }

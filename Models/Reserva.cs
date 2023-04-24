@@ -9,30 +9,30 @@ namespace PFGWS.Models
 {
     public class Reserva
     {
-        [PrimaryKey, AutoIncrement, Column("id")]
-        public int Id { get; set; }
+        [PrimaryKey, AutoIncrement, Column("idreserva")]
+        public int idreserva { get; set; }
 
-        [Column("cliente")]
-        public string Cliente { get; set; }
-        [Column("parcela")]
-        public string Parcela { get; set; }
-        [Column("camping")]
-        public string Camping { get; set; }
-        [Column("producte")]
-        public string Producte { get; set; }
-        [Column("idproducte")]
-        public string ProducteId { get; set; }
-        [Column("dataini")]
-        public string DataIni { get; set; }
-        [Column("datafi")]
-        public string DataFi { get; set; }
+        [Column("clientename")]
+        public string clientename { get; set; }
+        [Column("numeroparcela")]
+        public string numeroparcela { get; set; }
+        [Column("campingid")]
+        public int campingid { get; set; }
+        [Column("productes")]
+        public string productes { get; set; }
+        [Column("productescode")]
+        public string productescode { get; set; }
+        [Column("datainici")]
+        public string datainici { get; set; }
+        [Column("datafinal")]
+        public string datafinal { get; set; }
         [Column("preu")]
         public int Preu { get; set; }
-        [Column("estado")]
-        public string Estado { get; set; }
+        [Column("estadoid")]
+        public int estadoid { get; set; }
         [Column("extra")]
         public string Extra { get; set; }
-        [Column("lastmod")]
-        public string LastMod { get; set; }
+        [Column("userid")]
+        public int userid { get; set; }
     }
 }

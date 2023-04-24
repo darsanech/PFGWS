@@ -8,19 +8,18 @@ namespace PFGWS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservaController : Controller
+    public class EstadoController : Controller
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
 
 
 
         [HttpGet]
-        public async Task<IEnumerable<Reserva>> Get()
+        public async Task<IEnumerable<EstadoProducto>> Get()
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            var query = await db.Table<Reserva>().ToListAsync();
+            var query = await db.Table<EstadoProducto>().ToListAsync();
             await db.CloseAsync();
-
             return query;
         }
     }
