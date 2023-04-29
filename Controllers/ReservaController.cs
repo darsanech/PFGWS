@@ -13,7 +13,7 @@ namespace PFGWS.Controllers
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
 
         [HttpPost]
-        public async void Post(Reserva reserva)
+        public async void Post([FromBody] Reserva reserva)
         {
             var db = new SQLiteAsyncConnection(databasePath);
             await db.InsertAsync(reserva);
