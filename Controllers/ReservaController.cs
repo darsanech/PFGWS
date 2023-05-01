@@ -30,5 +30,12 @@ namespace PFGWS.Controllers
 
             return query;
         }
+        [HttpPut]
+        public async void Put([FromBody] Reserva reserva)
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            await db.UpdateAsync(reserva);
+            await db.CloseAsync();
+        }
     }
 }
