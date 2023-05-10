@@ -20,12 +20,21 @@ namespace PFGWS.Controllers
             await db.CloseAsync();
         }
 
-
         [HttpGet]
         public async Task<IEnumerable<Reserva>> Get()
         {
             var db = new SQLiteAsyncConnection(databasePath);
             var query = await db.Table<Reserva>().ToListAsync();
+            await db.CloseAsync();
+
+            return query;
+        }
+        [HttpGet]
+        [Route("/api/Reserva/GetUser")]
+        public async Task<IEnumerable<Reserva>> GetUser()
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            var query = await db.Table<Reserva>().Where(x => x.estadoid == 1 && x.estadoid == 2 && x.estadoid == 3 && x.estadoid == 5).ToListAsync();
             await db.CloseAsync();
 
             return query;
