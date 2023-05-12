@@ -8,11 +8,14 @@ using PFGWS.Models;
 using System.IO;
 using Microsoft.VisualBasic.FileIO;
 using Dotmim.Sync.Enumerations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PFGWS.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
+
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;

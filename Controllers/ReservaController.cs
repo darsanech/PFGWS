@@ -3,16 +3,19 @@ using Microsoft.AspNetCore.Mvc;
 using PFGWS.Models;
 using SQLite;
 using Microsoft.VisualBasic.FileIO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PFGWS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReservaController : Controller
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
 
         [HttpPost]
+
         public async void Post([FromBody] Reserva reserva)
         {
             var db = new SQLiteAsyncConnection(databasePath);

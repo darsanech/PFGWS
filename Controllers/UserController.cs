@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PFGWS.Models;
 using SQLite;
 using Microsoft.VisualBasic.FileIO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PFGWS.Controllers
 {
@@ -20,6 +21,8 @@ namespace PFGWS.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+
         public async Task<IEnumerable<User>> Get()
         {
             var db = new SQLiteAsyncConnection(databasePath);
@@ -27,7 +30,7 @@ namespace PFGWS.Controllers
             return query;
         }
         [HttpGet]
-        [Route("/api/Login")]
+        [Route("~/api/Login")]
         public async Task<IActionResult> Login(string usuario, string pass)
         {
             var db = new SQLiteAsyncConnection(databasePath);
