@@ -11,5 +11,9 @@ namespace PFGWS.Models
         public string Username { get; set; }
         [Column("pass")]
         public string Password { get; set; }
+        [Column("needupdate")]
+        public bool Needupdate { get; set; }
+        [Column("rol")]
+        public int Rol { get; set; }
     }
 }

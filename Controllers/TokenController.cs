@@ -16,7 +16,7 @@ namespace PFGWS.Controllers
             _expiration = config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
         }
 
-        public string GenerarToken(string username)
+        public string GenerarToken(string userid, string rol)
         {
             var tokenHandler =new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
@@ -24,7 +24,8 @@ namespace PFGWS.Controllers
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Name, userid),
+                    new Claim(ClaimTypes.Role, rol)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expiration)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256)
