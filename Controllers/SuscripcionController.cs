@@ -40,7 +40,7 @@ namespace PFGWS.Controllers
             await db.CloseAsync();
             return sus.update;
         }
-        [HttpPost]
+        [HttpGet]
         [Route("~/api/Suscripcion/GetAll")]
 
         public async Task<IEnumerable<Suscripcion>> GetAll()
