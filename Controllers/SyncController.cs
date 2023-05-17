@@ -86,7 +86,7 @@ namespace PFGWS.Controllers
                 var s1 = await agent.SynchronizeAsync(setup);
                 var result = await agent.SynchronizeAsync();
                 
-                agent.Dispose();
+                //agent.Dispose();
                 
             }
             catch (Exception ex)
