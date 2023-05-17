@@ -8,7 +8,7 @@ namespace PFGWS.Models
         public int userid { get; set; }
         [PrimaryKey, Column("campingid")]
         public int campingid { get; set; }
-        [Column("update")]
+        [Column("needupdate")]
         public bool update { get; set; }
     }
 }
