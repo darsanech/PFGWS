@@ -6,6 +6,7 @@ using Dotmim.Sync.SqlServer;
 using SQLite;
 using PFGWS.Models;
 using System.IO;
+using System;
 using Microsoft.VisualBasic.FileIO;
 using Dotmim.Sync.Enumerations;
 using Microsoft.AspNetCore.Authorization;
@@ -33,15 +34,13 @@ namespace PFGWS.Controllers
 
 
                 db = new SQLiteAsyncConnection(databasePath);
-
-                await db.CreateTableAsync<Camping>();
-                await db.CreateTableAsync<Cliente>();
-                await db.CreateTableAsync<Estado>();
-                await db.CreateTableAsync<EstadoProducto>();
-                await db.CreateTableAsync<Parcela>();
-                await db.CreateTableAsync<Producto>();
                 await db.CreateTableAsync<Reserva>();
+                await db.CreateTableAsync<Camping>();
+                await db.CreateTableAsync<Estado>();
+                await db.CreateTableAsync<Producto>();
                 await db.CreateTableAsync<User>();
+                await db.CreateTableAsync<Parcela>();
+                await db.CreateTableAsync<Suscripcion>();
 
 
 
@@ -66,10 +65,9 @@ namespace PFGWS.Controllers
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
-
-                var tablas = new string[] { "Reserva", "Camping", "Estado", 
-                    "Producto", "Users" , "Parcela","Suscripcion"};
                 
+                var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Users" , "Parcela","Suscripcion"};
+                /*
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
                 
                 // Deprovision everything
@@ -81,7 +79,7 @@ namespace PFGWS.Controllers
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
                 
-                
+                */
                 var setup = new SyncSetup(tablas);
                 
                 var agent = new SyncAgent(clientProvider, serverProvider);
@@ -97,7 +95,6 @@ namespace PFGWS.Controllers
             }
             
         }
-
         [HttpGet]
         public async Task<IActionResult> Get()
         {

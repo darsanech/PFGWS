@@ -26,8 +26,17 @@ namespace PFGWS.Controllers
             await db.InsertAsync(nsub);
             await db.CloseAsync();
         }
-        [HttpPost]
-        [Route("~/api/Suscripcion/NewUpdate")]
+        [HttpDelete]
+        public async void Delete(int campid)
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            Suscripcion nsub = new Suscripcion();
+            nsub.campingid = campid;
+            nsub.userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
+            await db.DeleteAsync(nsub);
+            await db.CloseAsync();
+        }
+        [HttpPut]
         public async void NewUpdate(int campid)
         {
             var db = new SQLiteAsyncConnection(databasePath);

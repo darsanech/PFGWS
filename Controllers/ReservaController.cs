@@ -21,7 +21,6 @@ namespace PFGWS.Controllers
         {
             var db = new SQLiteAsyncConnection(databasePath);
             await db.InsertAsync(reserva);
-            string Rol = User.FindFirst(ClaimTypes.Role).Value;
             await db.CloseAsync();
         }
 
