@@ -3,9 +3,14 @@ using PFGWS.Models;
 using Microsoft.VisualBasic.FileIO;
 using SQLite;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PFGWS.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+
     public class SuscripcionController : ControllerBase
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
