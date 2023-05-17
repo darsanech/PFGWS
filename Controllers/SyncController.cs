@@ -71,7 +71,7 @@ namespace PFGWS.Controllers
                     "Producto", "Users" , "Parcela","Suscripcion"};
                 
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
-                /*
+                
                 // Deprovision everything
                 var p = SyncProvision.StoredProcedures | SyncProvision.TrackingTable |
                         SyncProvision.Triggers;
@@ -80,7 +80,7 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
-                */
+                
                 
                 var setup = new SyncSetup(tablas);
                 
