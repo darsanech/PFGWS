@@ -22,7 +22,7 @@ namespace PFGWS.Controllers
             await db.CloseAsync();
         }
         [HttpPost]
-        [Route("~/api/NewUpdate")]
+        [Route("~/api/Suscripcion/NewUpdate")]
         public async void NewUpdate(int campid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
@@ -31,7 +31,7 @@ namespace PFGWS.Controllers
                 "where campingid=" + campid+" AND userid!="+userid);
             await db.CloseAsync();
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<bool> Get(int campid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
@@ -39,6 +39,17 @@ namespace PFGWS.Controllers
             Suscripcion sus = await db.Table<Suscripcion>().FirstOrDefaultAsync(x => x.userid == userid && x.campingid==campid);
             await db.CloseAsync();
             return sus.update;
+        }
+        [HttpPost]
+        [Route("~/api/Suscripcion/GetAll")]
+
+        public async Task<IEnumerable<Suscripcion>> GetAll()
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
+            var query = await db.Table<Suscripcion>().Where(x => x.userid == userid).ToListAsync();
+            await db.CloseAsync();
+            return query;
         }
     }
 }
