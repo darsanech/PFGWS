@@ -28,7 +28,7 @@ namespace PFGWS.Controllers
             var db = new SQLiteAsyncConnection(databasePath);
             var userid = User.FindFirst(ClaimTypes.Name).Value;
             var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set update=1 " +
-                "where campingid==" + campid+" && userid!="+userid);
+                "where campingid=" + campid+" AND userid!="+userid);
             await db.CloseAsync();
         }
         [HttpPost]

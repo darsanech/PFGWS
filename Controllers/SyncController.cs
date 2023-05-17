@@ -67,8 +67,9 @@ namespace PFGWS.Controllers
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
 
-                //var tablas = new string[] { "Reserva", "Camping", "Cliente", "Estado", "Producto", "Users" ,"EstadoProducto","Parcela"};
-                /*
+                var tablas = new string[] { "Reserva", "Camping", "Estado", 
+                    "Producto", "Users" , "Parcela","Suscripcion"};
+                
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
                 
                 // Deprovision everything
@@ -79,15 +80,15 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
-                */
+                
                 
                 //var setup = new SyncSetup(tablas);
                 
-                var agent = new SyncAgent(clientProvider, serverProvider);
+                //var agent = new SyncAgent(clientProvider, serverProvider);
                 //var s1 = await agent.SynchronizeAsync(setup);
-                var result = await agent.SynchronizeAsync();
+                //var result = await agent.SynchronizeAsync();
                 
-                agent.Dispose();
+                //agent.Dispose();
                 
             }
             catch (Exception ex)
