@@ -71,7 +71,7 @@ namespace PFGWS.Controllers
                     "Producto", "Users" , "Parcela","Suscripcion"};
                 
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
-                
+                /*
                 // Deprovision everything
                 var p = SyncProvision.StoredProcedures | SyncProvision.TrackingTable |
                         SyncProvision.Triggers;
@@ -80,15 +80,15 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
+                */
                 
+                var setup = new SyncSetup(tablas);
                 
-                //var setup = new SyncSetup(tablas);
+                var agent = new SyncAgent(clientProvider, serverProvider);
+                var s1 = await agent.SynchronizeAsync(setup);
+                var result = await agent.SynchronizeAsync();
                 
-                //var agent = new SyncAgent(clientProvider, serverProvider);
-                //var s1 = await agent.SynchronizeAsync(setup);
-                //var result = await agent.SynchronizeAsync();
-                
-                //agent.Dispose();
+                agent.Dispose();
                 
             }
             catch (Exception ex)
