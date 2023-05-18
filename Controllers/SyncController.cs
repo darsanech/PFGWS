@@ -78,6 +78,7 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
+                System.IO.File.Delete(databasePath);
                 return "Ok";
 
             }
