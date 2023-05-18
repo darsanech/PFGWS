@@ -1,12 +1,15 @@
 ﻿using SQLite;
+using System.ComponentModel.DataAnnotations;
 
 namespace PFGWS.Models
 {
     public class Suscripcion
     {
-        [PrimaryKey, Column("userid")]
+        [Key]
+        [Column("userid")]
         public int userid { get; set; }
-        [PrimaryKey, Column("campingid")]
+        [Key]
+        [Column("campingid")]
         public int campingid { get; set; }
         [Column("needupdate")]
         public bool update { get; set; }
