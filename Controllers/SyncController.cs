@@ -53,12 +53,14 @@ namespace PFGWS.Controllers
 
         }
 
-        public SyncController(ILogger<SyncController> logger)
+        public SyncController()
         {
             
-            _logger = logger;
         }
-        static async Task LoadData()
+
+        [HttpGet]
+        [Route("~/api/Sync/Load")]
+        public async Task LoadData()
         {
             try
             {

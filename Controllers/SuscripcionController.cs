@@ -10,10 +10,10 @@ namespace PFGWS.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-
     public class SuscripcionController : ControllerBase
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+        SyncController syncController = new SyncController();
 
         [HttpPost]
         public async void Post(int campid)
@@ -25,6 +25,8 @@ namespace PFGWS.Controllers
             nsub.update = true;
             await db.InsertAsync(nsub);
             await db.CloseAsync();
+            await syncController.LoadData();
+
         }
         [HttpDelete]
         public async void Delete(int campid)
@@ -35,15 +37,32 @@ namespace PFGWS.Controllers
             nsub.userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             await db.DeleteAsync(nsub);
             await db.CloseAsync();
+            await syncController.LoadData();
+
         }
         [HttpPut]
-        public async void NewUpdate(int campid)
+        [Route("~/api/Suscripcion/UpdateThem1")]
+
+        public async Task UpdateThem1(int campid,int userid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            var userid = User.FindFirst(ClaimTypes.Name).Value;
-            var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set update=1 " +
+            var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " +
                 "where campingid=" + campid+" AND userid!="+userid);
             await db.CloseAsync();
+            await syncController.LoadData();
+
+        }
+        [HttpPut]
+        [Route("~/api/Suscripcion/UpdateMe0")]
+
+        public async Task UpdateMe0(int campid, int userid)
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=0 " +
+                "where campingid=" + campid + " AND userid=" + userid);
+            await db.CloseAsync();
+            await syncController.LoadData();
+
         }
         [HttpGet]
         public async Task<bool> Get(int campid)
@@ -55,7 +74,7 @@ namespace PFGWS.Controllers
             return sus.update;
         }
         [HttpGet]
-        [Route("~/api/Suscripcion/GetAll")]
+        [Route("~/api/Suscripcion/GetMine")]
 
         public async Task<IEnumerable<Suscripcion>> GetAll()
         {
