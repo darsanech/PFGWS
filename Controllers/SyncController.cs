@@ -27,8 +27,8 @@ namespace PFGWS.Controllers
             try
             {
                 // Get an absolute path to the database file
-                //var databasePath = Path.Combine(@"sqlite\MyData.db");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+                //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
                 System.IO.File.Delete(databasePath);
 
 
@@ -65,7 +65,7 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
 
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
@@ -78,7 +78,6 @@ namespace PFGWS.Controllers
                 var localOrchestrator = new LocalOrchestrator(clientProvider);
                 await remoteOrchestrator.DropAllAsync();
                 await localOrchestrator.DropAllAsync();
-                System.IO.File.Delete(databasePath);
                 return "Ok";
 
             }
@@ -96,7 +95,7 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
                 
                 var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Users" , "Parcela","Suscripcion"};
@@ -124,8 +123,8 @@ namespace PFGWS.Controllers
             {
                 await Init();
                 await LoadData();
-                var path = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
-                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyData2.db");
+                var path = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyDataB.db");
 
                 if (System.IO.File.Exists(path2))
                 {

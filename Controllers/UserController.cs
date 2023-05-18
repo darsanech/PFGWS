@@ -12,7 +12,7 @@ namespace PFGWS.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyData.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
 
         private IConfiguration _config;
 
