@@ -18,14 +18,15 @@ namespace PFGWS.Controllers
         SuscripcionController susController=new SuscripcionController();
         [HttpPost]
 
-        public async void Post([FromBody] Reserva reserva)
+        public async Task<int> Post([FromBody] Reserva reserva)
         {
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var db = new SQLiteAsyncConnection(databasePath);
-            await db.InsertAsync(reserva);
+            var i=await db.InsertAsync(reserva);
             await db.CloseAsync();
-            //await syncController.LoadData();
             await susController.UpdateThem1(reserva.campingid,userid);
+            await syncController.LoadData();
+            return reserva.idreserva;
         }
 
         [HttpGet]
@@ -49,7 +50,7 @@ namespace PFGWS.Controllers
             return query;
         }
         [HttpPut]
-        public async void Put([FromBody] Reserva reserva)
+        public async Task Put([FromBody] Reserva reserva)
         {
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var db = new SQLiteAsyncConnection(databasePath);

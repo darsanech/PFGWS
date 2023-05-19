@@ -15,8 +15,6 @@ namespace PFGWS.Controllers
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
 
-
-
         [HttpGet]
         public async Task<IEnumerable<Cliente>> Get()
         {

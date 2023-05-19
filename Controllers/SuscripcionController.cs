@@ -15,31 +15,6 @@ namespace PFGWS.Controllers
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
         SyncController syncController = new SyncController();
 
-        [HttpPost]
-        public async void Post(int campid)
-        {
-            var db = new SQLiteAsyncConnection(databasePath);
-            Suscripcion nsub= new Suscripcion();
-            nsub.campingid = campid;
-            nsub.userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
-            nsub.update = true;
-            await db.InsertAsync(nsub);
-            await db.CloseAsync();
-            await syncController.LoadData();
-
-        }
-        [HttpDelete]
-        public async void Delete(int campid)
-        {
-            var db = new SQLiteAsyncConnection(databasePath);
-            Suscripcion nsub = new Suscripcion();
-            nsub.campingid = campid;
-            nsub.userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
-            await db.DeleteAsync(nsub);
-            await db.CloseAsync();
-            await syncController.LoadData();
-
-        }
         [HttpPut]
         [Route("~/api/Suscripcion/UpdateThem1")]
 
@@ -72,17 +47,6 @@ namespace PFGWS.Controllers
             Suscripcion sus = await db.Table<Suscripcion>().FirstOrDefaultAsync(x => x.userid == userid && x.campingid==campid);
             await db.CloseAsync();
             return sus.update;
-        }
-        [HttpGet]
-        [Route("~/api/Suscripcion/GetMine")]
-
-        public async Task<IEnumerable<Suscripcion>> GetAll()
-        {
-            var db = new SQLiteAsyncConnection(databasePath);
-            var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
-            var query = await db.Table<Suscripcion>().Where(x => x.userid == userid).ToListAsync();
-            await db.CloseAsync();
-            return query;
         }
     }
 }
