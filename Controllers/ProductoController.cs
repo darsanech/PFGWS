@@ -13,7 +13,7 @@ namespace PFGWS.Controllers
 
     public class ProductoController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
 
 
 

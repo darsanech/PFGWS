@@ -12,7 +12,7 @@ namespace PFGWS.Controllers
     [Authorize]
     public class SuscripcionController : ControllerBase
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
         SyncController syncController = new SyncController();
 
         [HttpPut]
@@ -23,9 +23,8 @@ namespace PFGWS.Controllers
             var db = new SQLiteAsyncConnection(databasePath);
             var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " +
                 "where campingid=" + campid+" AND userid!="+userid);
+            var query =await db.Table<Suscripcion>().Where(x=>x.campingid==campid).ToListAsync();
             await db.CloseAsync();
-            await syncController.LoadData();
-
         }
         [HttpPut]
         [Route("~/api/Suscripcion/UpdateMe0")]

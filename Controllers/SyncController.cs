@@ -19,7 +19,8 @@ namespace PFGWS.Controllers
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;
-        static SQLiteAsyncConnection db;
+        static SQLiteAsyncConnection dbU;
+        static SQLiteAsyncConnection dbR;
 
 
         static async Task Init()
@@ -28,23 +29,20 @@ namespace PFGWS.Controllers
             {
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
-                System.IO.File.Delete(databasePath);
+                var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataUser.db");
+                var databasePathU = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                dbR = new SQLiteAsyncConnection(databasePathR);
+                await dbR.CreateTableAsync<Reserva>();
+                await dbR.CreateTableAsync<Camping>();
+                await dbR.CreateTableAsync<Estado>();
+                await dbR.CreateTableAsync<Producto>();
+                await dbR.CreateTableAsync<Parcela>();
+                await dbR.CreateTableAsync<Suscripcion>();
+                await dbR.CloseAsync();
+                dbU = new SQLiteAsyncConnection(databasePathU);
+                await dbU.CreateTableAsync<User>();
+                await dbU.CloseAsync();
 
-
-
-                db = new SQLiteAsyncConnection(databasePath);
-                await db.CreateTableAsync<Reserva>();
-                await db.CreateTableAsync<Camping>();
-                await db.CreateTableAsync<Estado>();
-                await db.CreateTableAsync<Producto>();
-                await db.CreateTableAsync<User>();
-                await db.CreateTableAsync<Parcela>();
-                await db.CreateTableAsync<Suscripcion>();
-
-
-
-                await db.CloseAsync();
             }
             catch (Exception ex)
             {
@@ -57,7 +55,9 @@ namespace PFGWS.Controllers
         {
             
         }
-
+       
+        
+        
         [HttpGet]
         [Route("~/api/Sync/Deprovision")]
         public async Task<string> Deprovision()
@@ -65,7 +65,7 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
 
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
@@ -95,10 +95,10 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
                 
-                var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Users" , "Parcela","Suscripcion"};
+                var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Parcela","Suscripcion", "Users", "ParcelaEstado"};
                 
                 var setup = new SyncSetup(tablas);
                 
@@ -123,8 +123,8 @@ namespace PFGWS.Controllers
             {
                 await Init();
                 await LoadData();
-                var path = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
-                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyDataB.db");
+                var path = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyDataRestCopy.db");
 
                 if (System.IO.File.Exists(path2))
                 {

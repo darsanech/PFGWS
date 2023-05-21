@@ -12,7 +12,8 @@ namespace PFGWS.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+        SyncController syncController = new SyncController();
 
         private IConfiguration _config;
 
@@ -34,6 +35,7 @@ namespace PFGWS.Controllers
         [Route("~/api/Login")]
         public async Task<IActionResult> Login(string usuario, string pass)
         {
+            await syncController.LoadData();
             var db = new SQLiteAsyncConnection(databasePath);
 
             User user = await db.Table<User>().FirstOrDefaultAsync(x=>x.Username== usuario && x.Password==pass);

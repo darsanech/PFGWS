@@ -13,9 +13,10 @@ namespace PFGWS.Controllers
     [Authorize]
     public class ReservaController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
         SyncController syncController=new SyncController();
         SuscripcionController susController=new SuscripcionController();
+        ParcelaController parController=new ParcelaController();
         [HttpPost]
 
         public async Task<int> Post([FromBody] Reserva reserva)
@@ -24,6 +25,7 @@ namespace PFGWS.Controllers
             var db = new SQLiteAsyncConnection(databasePath);
             var i=await db.InsertAsync(reserva);
             await db.CloseAsync();
+            await parController.Put(reserva.campingid, reserva.numeroparcela, reserva.estadoid);
             await susController.UpdateThem1(reserva.campingid,userid);
             await syncController.LoadData();
             return reserva.idreserva;
@@ -56,6 +58,7 @@ namespace PFGWS.Controllers
             var db = new SQLiteAsyncConnection(databasePath);
             await db.UpdateAsync(reserva);
             await db.CloseAsync();
+            await parController.Put(reserva.campingid, reserva.numeroparcela, reserva.estadoid);
             await susController.UpdateThem1(reserva.campingid, userid);
             await syncController.LoadData();
         }

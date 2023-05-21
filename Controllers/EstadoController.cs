@@ -10,7 +10,7 @@ namespace PFGWS.Controllers
     [ApiController]
     public class EstadoController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataA.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
 
 
 
