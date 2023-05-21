@@ -19,6 +19,7 @@ namespace PFGWS.Controllers
         public async Task<IEnumerable<Parcela>> Get(int campingid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
+            syncController.LoadData();
             var query = await db.Table<Parcela>().Where(x => x.campingid == campingid).ToListAsync();
             await db.CloseAsync();
             return query;
