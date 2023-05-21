@@ -28,7 +28,7 @@ namespace PFGWS.Controllers
             {
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
-                var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
                 dbR = new SQLiteAsyncConnection(databasePathR);
                 await dbR.CreateTableAsync<Reserva>();
                 await dbR.CreateTableAsync<Camping>();
@@ -61,7 +61,7 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
 
                 var remoteOrchestrator = new RemoteOrchestrator(serverProvider);
@@ -91,7 +91,7 @@ namespace PFGWS.Controllers
             try
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
-                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
 
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
                 
@@ -120,8 +120,8 @@ namespace PFGWS.Controllers
             {
                 await Init();
                 await LoadData();
-                var path = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
-                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyDataRestCopy.db");
+                var path = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+                var path2 = Path.Combine(FileSystem.CurrentDirectory, "MyDataRCopy.db");
 
                 if (System.IO.File.Exists(path2))
                 {
