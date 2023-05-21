@@ -19,7 +19,6 @@ namespace PFGWS.Controllers
     public class SyncController : ControllerBase
     {
         private readonly ILogger<SyncController> _logger;
-        static SQLiteAsyncConnection dbU;
         static SQLiteAsyncConnection dbR;
 
 
@@ -29,19 +28,17 @@ namespace PFGWS.Controllers
             {
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
-                var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataUser.db");
-                var databasePathU = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
                 dbR = new SQLiteAsyncConnection(databasePathR);
                 await dbR.CreateTableAsync<Reserva>();
                 await dbR.CreateTableAsync<Camping>();
                 await dbR.CreateTableAsync<Estado>();
+                await dbR.CreateTableAsync<ParcelaEstado>();
                 await dbR.CreateTableAsync<Producto>();
                 await dbR.CreateTableAsync<Parcela>();
+                await dbR.CreateTableAsync<User>();
                 await dbR.CreateTableAsync<Suscripcion>();
                 await dbR.CloseAsync();
-                dbU = new SQLiteAsyncConnection(databasePathU);
-                await dbU.CreateTableAsync<User>();
-                await dbU.CloseAsync();
 
             }
             catch (Exception ex)
