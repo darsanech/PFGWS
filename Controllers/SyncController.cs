@@ -23,18 +23,16 @@ namespace PFGWS.Controllers
 
 
         static async Task Init()
-        {
+        {   
             try
             {
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
                 var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
-                System.IO.File.Delete(databasePathR);
                 dbR = new SQLiteAsyncConnection(databasePathR);
                 await dbR.CreateTableAsync<Reserva>();
                 await dbR.CreateTableAsync<Camping>();
                 await dbR.CreateTableAsync<Estado>();
-                await dbR.CreateTableAsync<ParcelaEstado>();
                 await dbR.CreateTableAsync<Producto>();
                 await dbR.CreateTableAsync<Parcela>();
                 await dbR.CreateTableAsync<User>();
@@ -94,9 +92,10 @@ namespace PFGWS.Controllers
             {
                 SqlSyncProvider serverProvider = new SqlSyncProvider(@"Server=tcp:pfg.database.windows.net,1433;Initial Catalog=PFG;User ID=almata;Password=vH3Q7v29H!v");
                 var databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+
                 SqliteSyncProvider clientProvider = new SqliteSyncProvider(databasePath);
                 
-                var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Parcela","Suscripcion", "Users", "ParcelaEstado"};
+                var tablas = new string[] { "Reserva", "Camping", "Estado","Producto", "Parcela","Suscripcion", "Users"};
                 
                 var setup = new SyncSetup(tablas);
                 

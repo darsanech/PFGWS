@@ -16,24 +16,26 @@ namespace PFGWS.Controllers
 
 
         [HttpGet]
-        public async Task<IEnumerable<ParcelaEstado>> Get()
+        public async Task<IEnumerable<Parcela>> Get(int campingid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            var query = await db.Table<ParcelaEstado>().ToListAsync();
+            var query = await db.Table<Parcela>().Where(x => x.campingid == campingid).ToListAsync();
             await db.CloseAsync();
             return query;
         }
         [HttpPut]
         public async Task Put(int campid, string parcela, int estadoid)
         {
-            ParcelaEstado pe = new ParcelaEstado();
-            pe.campingid= campid;
-            pe.estadoid= estadoid;
-            pe.numeroparcela = parcela;
             var db = new SQLiteAsyncConnection(databasePath);
-            await db.UpdateAsync(pe);
-            await db.CloseAsync();
-            await syncController.LoadData();
+            Parcela pe = await db.Table<Parcela>().FirstOrDefaultAsync(x => x.campingid == campid && x.numeroparcela == parcela);
+            if (pe != null)
+            {
+                pe.estadoid = estadoid;
+                await db.UpdateAsync(pe);
+                await db.CloseAsync();
+                await syncController.LoadData();
+            }
+            
         }
     }
 }
