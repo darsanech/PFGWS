@@ -11,9 +11,7 @@ namespace PFGWS.Models
         [Key]
         [Column("numeroparcela")]
         public string numeroparcela { get; set; }
-        [Column("latitud")]
-        public string latitud { get; set; }
-        [Column("longitud")]
-        public string longitud { get; set; }
+        [Column("geometryy")]
+        public string geometryy { get; set; }
     }
 }
