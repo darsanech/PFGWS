@@ -29,6 +29,7 @@ namespace PFGWS.Controllers
                 // Get an absolute path to the database file
                 //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
                 var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
+                System.IO.File.Delete(databasePathR);
                 dbR = new SQLiteAsyncConnection(databasePathR);
                 await dbR.CreateTableAsync<Reserva>();
                 await dbR.CreateTableAsync<Camping>();

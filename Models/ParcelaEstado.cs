@@ -5,10 +5,10 @@ namespace PFGWS.Models
 {
     public class ParcelaEstado
     {
-        [Key]
+        [PrimaryKey, AutoIncrement, Column("parcelaestadoid")]
+        public int parcelaestadoid { get; set; }
         [Column("campingid")]
         public int campingid { get; set; }
-        [Key]
         [Column("numeroparcela")]
         public string numeroparcela { get; set; }
         [Column("estadoid")]

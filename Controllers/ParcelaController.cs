@@ -9,7 +9,6 @@ namespace PFGWS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ParcelaController : Controller
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataRest.db");
