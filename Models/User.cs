@@ -15,9 +15,7 @@ namespace PFGWS.Models
         public bool Needupdate { get; set; }
         [Column("rol")]
         public int Rol { get; set; }
-        [Column("latitud")]
-        public string latitud { get; set; }
-        [Column("longitud")]
-        public string longitud { get; set; }
+        [Column("ubicacion")]
+        public string Ubicacion { get; set; }
     }
 }

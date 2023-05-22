@@ -5,6 +5,9 @@ using SQLite;
 using Microsoft.VisualBasic.FileIO;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PFGWS.Controllers
 {
@@ -30,19 +33,50 @@ namespace PFGWS.Controllers
             var query = await db.Table<User>().ToListAsync();
             return query;
         }
-        
+        [HttpGet]
+        [Route("~/api/User/GetUbi")]
+        [Authorize]
+        public async Task<IEnumerable<User>> GetUbi()
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            var query = await db.QueryAsync<User>("select userid, ubicacion from Users");
+            await db.CloseAsync();
+            return query;
+        }
+        [HttpPut]
+        [Route("~/api/User/PutUbi")]
+        [Authorize]
+        public async Task PutUbi(string newUbi)
+        {
+            if (newUbi != "")
+            {
+                var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
+                var db = new SQLiteAsyncConnection(databasePath);
+                User user = await db.Table<User>().FirstOrDefaultAsync(x => x.userid == userid);
+                user.Ubicacion = newUbi;
+                await db.UpdateAsync(user);
+                await db.CloseAsync();
+                await syncController.LoadData();
+
+            }
+        }
+
         [HttpGet]
         [Route("~/api/Login")]
         public async Task<IActionResult> Login(string usuario, string pass)
         {
             await syncController.LoadData();
             var db = new SQLiteAsyncConnection(databasePath);
-
-            User user = await db.Table<User>().FirstOrDefaultAsync(x=>x.Username== usuario && x.Password==pass);
+            byte[] data = Encoding.ASCII.GetBytes(pass);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            String hash = System.Text.Encoding.ASCII.GetString(data);
+            User user = await db.Table<User>().FirstOrDefaultAsync(x=>x.Username== usuario && x.Password==hash);
             if (user == null)
             {
                 return NotFound();
             }
+            
+
             var expDate = _config.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
             var tc = new TokenController(_config);
             var token = tc.GenerarToken(user.userid.ToString(), user.Rol.ToString());

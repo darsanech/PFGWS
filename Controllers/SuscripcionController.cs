@@ -15,17 +15,25 @@ namespace PFGWS.Controllers
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
         SyncController syncController = new SyncController();
 
-        [HttpPut]
+       
+         [HttpPut]
         [Route("~/api/Suscripcion/UpdateThem1")]
 
         public async Task UpdateThem1(int campid,int userid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " +
-                "where campingid=" + campid+" AND userid!="+userid);
-            var query =await db.Table<Suscripcion>().Where(x=>x.campingid==campid).ToListAsync();
+            if (campid == -1)
+            {
+                var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " + " AND userid!=" + userid);
+            }
+            else
+            {
+                var query1 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " +
+                "where campingid=" + campid + " AND userid!=" + userid);
+            }
             await db.CloseAsync();
         }
+         
         [HttpPut]
         [Route("~/api/Suscripcion/UpdateMe0")]
 
