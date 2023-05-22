@@ -12,6 +12,8 @@ namespace PFGWS.Models
         public string Token { get; set; }
         public int UserId { get; set; }
         public int ExpirationInMinutes { get; set; }
+        public int Rol { get; set; }
+
 
     }
 }

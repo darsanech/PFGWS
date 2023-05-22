@@ -84,7 +84,8 @@ namespace PFGWS.Controllers
             {
                 Token = token,
                 ExpirationInMinutes = Int32.Parse(expDate),
-                UserId = user.userid
+                UserId = user.userid,
+                Rol = user.Rol
             };
             return Ok(res);
         }
