@@ -15,7 +15,7 @@ namespace PFGWS.Controllers
     [ApiController]
     public class UserController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
         SyncController syncController = new SyncController();
 
         private IConfiguration _config;

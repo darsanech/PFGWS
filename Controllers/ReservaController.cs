@@ -13,7 +13,7 @@ namespace PFGWS.Controllers
     [Authorize]
     public class ReservaController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
         SyncController syncController=new SyncController();
         SuscripcionController susController=new SuscripcionController();
         ParcelaController parController=new ParcelaController();

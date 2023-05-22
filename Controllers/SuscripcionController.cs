@@ -12,7 +12,7 @@ namespace PFGWS.Controllers
     [Authorize]
     public class SuscripcionController : ControllerBase
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
         SyncController syncController = new SyncController();
 
        

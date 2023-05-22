@@ -13,7 +13,7 @@ namespace PFGWS.Controllers
 
     public class ClienteController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
 
         [HttpGet]
         public async Task<IEnumerable<Cliente>> Get()

@@ -11,7 +11,7 @@ namespace PFGWS.Controllers
     [ApiController]
     public class ParcelaController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataR.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
         SyncController syncController = new SyncController();
 
 
