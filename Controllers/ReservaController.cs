@@ -97,5 +97,23 @@ namespace PFGWS.Controllers
             await syncController.LoadData();
             return query.Count();
         }
+        [HttpGet]
+        [Route("/api/Reserva/SetRecoger")]
+        public async Task<int> SetEntregar()
+        {
+            var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
+            var db = new SQLiteAsyncConnection(databasePath);
+            string now = DateTime.Now.ToString("dd/MM/yyyy");
+            var query = await db.Table<Reserva>().Where(x => x.estadoid == 7 && x.datainici == now).ToListAsync();
+            await db.CloseAsync();
+            foreach (var item in query)
+            {
+                item.estadoid = 1;
+                await db.UpdateAsync(item);
+            }
+            await susController.UpdateThem1(-1, userid);
+            await syncController.LoadData();
+            return query.Count();
+        }
     }
 }

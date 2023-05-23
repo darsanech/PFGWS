@@ -27,16 +27,18 @@ namespace PFGWS.Controllers
         [HttpPut]
         public async Task Put(int campid, string parcela, int estadoid)
         {
-            var db = new SQLiteAsyncConnection(databasePath);
-            Parcela pe = await db.Table<Parcela>().FirstOrDefaultAsync(x => x.campingid == campid && x.numeroparcela == parcela);
-            if (pe != null)
+            if (estadoid != 7)
             {
-                pe.estadoid = estadoid;
-                await db.UpdateAsync(pe);
-                await db.CloseAsync();
-                await syncController.LoadData();
+                var db = new SQLiteAsyncConnection(databasePath);
+                Parcela pe = await db.Table<Parcela>().FirstOrDefaultAsync(x => x.campingid == campid && x.numeroparcela == parcela);
+                if (pe != null)
+                {
+                    pe.estadoid = estadoid;
+                    await db.UpdateAsync(pe);
+                    await db.CloseAsync();
+                    await syncController.LoadData();
+                }
             }
-            
         }
     }
 }
