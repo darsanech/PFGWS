@@ -98,7 +98,7 @@ namespace PFGWS.Controllers
             return query.Count();
         }
         [HttpGet]
-        [Route("/api/Reserva/SetRecoger")]
+        [Route("/api/Reserva/SetEntregar")]
         public async Task<int> SetEntregar()
         {
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
