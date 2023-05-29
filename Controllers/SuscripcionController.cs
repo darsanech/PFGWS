@@ -49,6 +49,7 @@ namespace PFGWS.Controllers
         [HttpGet]
         public async Task<bool> Get(int campid)
         {
+            await syncController.LoadData();
             var db = new SQLiteAsyncConnection(databasePath);
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             Suscripcion sus = await db.Table<Suscripcion>().FirstOrDefaultAsync(x => x.userid == userid && x.campingid==campid);
