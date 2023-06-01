@@ -14,7 +14,7 @@ namespace PFGWS.Controllers
 
     public class ProductoController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataFFF.db");
 
         SyncController syncController = new SyncController();
 
@@ -59,7 +59,7 @@ namespace PFGWS.Controllers
 
         public async Task MegaPut(List<Reserva> r) //false disponible-//-true total
         {
-
+            /*
             if (r.Count()==1 && (r[0].estadoid==2 || r[0].estadoid == 6))
             {
                 Dictionary<int, int> ProductosPHList = StringtoPPH(r[0].productes,true).Result;
@@ -106,6 +106,7 @@ namespace PFGWS.Controllers
 
             }
             await syncController.LoadData();
+            */
 
         }
         private async Task<Dictionary<int, int>> StringtoPPH(string productosreserva,bool neww)

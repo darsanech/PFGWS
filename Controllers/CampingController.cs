@@ -13,7 +13,7 @@ namespace PFGWS.Controllers
 
     public class CampingController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataFFF.db");
 
 
 

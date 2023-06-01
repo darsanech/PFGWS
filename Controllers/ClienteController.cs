@@ -13,13 +13,13 @@ namespace PFGWS.Controllers
 
     public class ClienteController : Controller
     {
-        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataF.db");
+        string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataFFF.db");
 
         [HttpGet]
-        public async Task<IEnumerable<Cliente>> Get()
+        public async Task<IEnumerable<ReservaProducto>> Get()
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            var query = await db.Table<Cliente>().ToListAsync();
+            var query = await db.Table<ReservaProducto>().ToListAsync();
             await db.CloseAsync();
             return query;
         }
