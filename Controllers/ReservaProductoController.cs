@@ -17,7 +17,7 @@ namespace PFGWS.Controllers
         public async Task Post(List<ReservaProducto> nReservaProd, int idestado)
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            await db.UpdateAllAsync(nReservaProd);
+            await db.InsertAllAsync(nReservaProd);
             if(idestado==2 || idestado==6) 
             {
                 foreach (ReservaProducto rp in nReservaProd)
