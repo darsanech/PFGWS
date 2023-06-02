@@ -5,6 +5,7 @@ using SQLite;
 using Microsoft.VisualBasic.FileIO;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using System.Collections.Generic;
 
 namespace PFGWS.Controllers
 {
@@ -30,6 +31,7 @@ namespace PFGWS.Controllers
             var db = new SQLiteAsyncConnection(databasePath);
             var i=await db.InsertAsync(nReserva);
             await db.CloseAsync();
+            nReservaProducto.ToList().ForEach(x => x.idreserva = nReserva.idreserva);
             await rpController.Post(nReservaProducto,nReserva.estadoid);
             await parController.Put(nReserva.campingid, nReserva.numeroparcela, nReserva.estadoid);
             await susController.UpdateThem1(nReserva.campingid,userid);
