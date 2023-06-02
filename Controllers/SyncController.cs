@@ -26,8 +26,6 @@ namespace PFGWS.Controllers
         {   
             try
             {
-                // Get an absolute path to the database file
-                //var databasePath = Path.Combine(@"sqlite\MyDataA.db");
                 var databasePathR = Path.Combine(FileSystem.CurrentDirectory, "MyDataFFF.db");
                 dbR = new SQLiteAsyncConnection(databasePathR);
                 await dbR.CreateTableAsync<Reserva>();
@@ -104,8 +102,6 @@ namespace PFGWS.Controllers
                 var s1 = await agent.SynchronizeAsync(setup);
                 var result = await agent.SynchronizeAsync();
                 return "Ok";
-                //agent.Dispose();
-                
             }
             catch (Exception ex)
             {
