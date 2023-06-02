@@ -10,34 +10,31 @@ namespace PFGWS.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class ReservaController : Controller
     {
         string databasePath = Path.Combine(FileSystem.CurrentDirectory, "MyDataFFF.db");
         SyncController syncController=new SyncController();
         SuscripcionController susController=new SuscripcionController();
+        ReservaProductoController rpController=new ReservaProductoController();
         ParcelaController parController=new ParcelaController();
-        ProductoController proController=new ProductoController();
 
 
 
         [HttpPost]
 
-        public async Task<int> Post([FromBody] Reserva reserva)
+        public async Task<int> Post([FromBody] Newtonsoft.Json.Linq.JObject data)
         {
+            Reserva nReserva = data["nReserva"].ToObject<Reserva>();
+            List<ReservaProducto> nReservaProducto = data["nReservaProducto"].ToObject<List<ReservaProducto>>();
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var db = new SQLiteAsyncConnection(databasePath);
-            var i=await db.InsertAsync(reserva);
-            List<Reserva> listR = new List<Reserva>
-            {
-                reserva
-            };
-            await proController.MegaPut(listR);
+            var i=await db.InsertAsync(nReserva);
             await db.CloseAsync();
-            await parController.Put(reserva.campingid, reserva.numeroparcela, reserva.estadoid);
-            await susController.UpdateThem1(reserva.campingid,userid);
+            await rpController.Post(nReservaProducto,nReserva.estadoid);
+            await parController.Put(nReserva.campingid, nReserva.numeroparcela, nReserva.estadoid);
+            await susController.UpdateThem1(nReserva.campingid,userid);
             await syncController.LoadData();
-            return reserva.idreserva;
+            return nReserva.idreserva;
         }
 
         [HttpGet]
@@ -48,6 +45,15 @@ namespace PFGWS.Controllers
             await db.CloseAsync();
 
             return query;
+        }
+        [HttpGet]
+        [Route("/api/Reserva/GetEstado")]
+        public async Task<int> GetEstado(int idreserva)
+        {
+            var db = new SQLiteAsyncConnection(databasePath);
+            var res = await db.Table<Reserva>().Where(x=>x.idreserva==idreserva).FirstOrDefaultAsync();
+            await db.CloseAsync();
+            return res.estadoid;
         }
         [HttpGet]
         [Route("/api/Reserva/GetCamping")]
@@ -61,23 +67,33 @@ namespace PFGWS.Controllers
             return query;
         }
         [HttpPut]
-        public async Task Put([FromBody] Reserva reserva)
+        public async Task Put([FromBody] Newtonsoft.Json.Linq.JObject data)
         {
+            Reserva nReserva = data["nReserva"].ToObject<Reserva>();
+            List<ReservaProducto> nReservaProducto = data["nReservaProducto"].ToObject<List<ReservaProducto>>();
             var userid = Int32.Parse(User.FindFirst(ClaimTypes.Name).Value);
             var db = new SQLiteAsyncConnection(databasePath);
-            Reserva oldreserva = await db.Table<Reserva>().FirstOrDefaultAsync(x => x.idreserva == reserva.idreserva);
-            List<Reserva> listR = new List<Reserva>
-            {
-                reserva,
-                oldreserva
-            };
-            await proController.MegaPut(listR);
 
-            await db.UpdateAsync(reserva);
+            Reserva oldReserva = await db.Table<Reserva>().Where(x => x.idreserva == nReserva.idreserva).FirstOrDefaultAsync();
+            List<ReservaProducto> oldReservaProducto = await db.Table<ReservaProducto>().Where(x => x.idreserva == nReserva.idreserva).ToListAsync();
+
+            await rpController.Put(nReservaProducto, oldReservaProducto, nReserva.estadoid, oldReserva.estadoid);
+
+            await db.UpdateAsync(nReserva);
             await db.CloseAsync();
-            await parController.Put(reserva.campingid, reserva.numeroparcela, reserva.estadoid);
-            await susController.UpdateThem1(reserva.campingid, userid);
+            await parController.Put(nReserva.campingid, nReserva.numeroparcela, nReserva.estadoid);
+            await susController.UpdateThem1(nReserva.campingid, userid);
             await syncController.LoadData();
+        }
+        [HttpGet]
+        [Route("/api/ReservaProducto/GetReservaProductos")]
+        public async Task<IEnumerable<ReservaProducto>> GetReservaProductos(int idreserva)
+        {
+            await syncController.LoadData();
+            var db = new SQLiteAsyncConnection(databasePath);
+            var query = await db.Table<ReservaProducto>().Where(x=>x.idreserva==idreserva).ToListAsync();
+            await db.CloseAsync();
+            return query;
         }
         [HttpGet]
         [Route("/api/Reserva/SetRecoger")]
