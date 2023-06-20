@@ -22,6 +22,10 @@ namespace PFGWS.Controllers
         public async Task UpdateThem1(int campid,int userid)
         {
             var db = new SQLiteAsyncConnection(databasePath);
+            if (campid == -2)
+            {
+                var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 ");
+            }
             if (campid == -1)
             {
                 var query0 = await db.QueryAsync<Suscripcion>("update Suscripcion set needupdate=1 " + " AND userid!=" + userid);

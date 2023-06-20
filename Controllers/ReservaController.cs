@@ -112,7 +112,7 @@ namespace PFGWS.Controllers
                 await db.UpdateAsync(item);
                 await parController.Put(item.campingid, item.numeroparcela, 3);
             }
-            await susController.UpdateThem1(-1, userid);
+            await susController.UpdateThem1(-2, userid);
             await syncController.LoadData();
             return query.Count();
         }
@@ -131,7 +131,7 @@ namespace PFGWS.Controllers
                 await db.UpdateAsync(item);
                 await parController.Put(item.campingid, item.numeroparcela, 1);
             }
-            await susController.UpdateThem1(-1, userid);
+            await susController.UpdateThem1(-2, userid);
             await syncController.LoadData();
             return query.Count();
         }
