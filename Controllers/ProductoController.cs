@@ -35,6 +35,7 @@ namespace PFGWS.Controllers
             if (total)
             {
                 prod.total += mod;
+                prod.disponible += mod;
                 await db.UpdateAsync(prod);
                 await syncController.LoadData();
             }
