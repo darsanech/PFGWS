@@ -62,10 +62,10 @@ namespace PFGWS.Controllers
             else
             {
                 Dictionary<int, int> newdic = nReservaProd.ToDictionary(keySelector: x=>x.producteid,elementSelector: x=>x.quantitat);
-                Dictionary<int, int> olddic = oldReservaProd.ToDictionary(keySelector: x => x.producteid, elementSelector: x => x.quantitat);
+                Dictionary<int, int> olddic = oldReservaProd.ToDictionary(keySelector: x => x.producteid, elementSelector: x => -x.quantitat);
                 Dictionary<int, int> result = (from e in newdic.Concat(olddic)
                                                group e by e.Key into g
-                                               select new { Name = g.Key, Count = g.Sum(kvp => -kvp.Value) }).ToDictionary(item => item.Name, item => item.Count);
+                                               select new { Name = g.Key, Count = g.Sum(kvp => kvp.Value) }).ToDictionary(item => item.Name, item => item.Count);
                 if(newidestado != oldidestado)
                 {
                     if((oldidestado ==5 || oldidestado == 6) && newidestado == 2)
