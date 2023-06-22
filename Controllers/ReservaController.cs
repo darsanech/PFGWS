@@ -81,6 +81,10 @@ namespace PFGWS.Controllers
 
             await rpController.Put(nReservaProducto, oldReservaProducto, nReserva.estadoid, oldReserva.estadoid);
 
+            if (oldReserva.numeroparcela != nReserva.numeroparcela)
+            {
+                await parController.Put(oldReserva.campingid, oldReserva.numeroparcela, 4);
+            }
             await db.UpdateAsync(nReserva);
             await db.CloseAsync();
             await parController.Put(nReserva.campingid, nReserva.numeroparcela, nReserva.estadoid);

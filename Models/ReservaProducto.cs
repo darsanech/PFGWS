@@ -13,5 +13,17 @@ namespace PFGWS.Models
         public int producteid { get; set; }
         [Column("quantitat")]
         public int quantitat { get; set; }
+
+
+        public bool Equals(ReservaProducto other)
+        {
+            if (other is null)
+                return false;
+
+            return this.idreserva == other.idreserva && this.producteid == other.producteid && this.quantitat == other.quantitat;
+        }
+
+        public override bool Equals(object obj) => Equals(obj as ReservaProducto);
+        public override int GetHashCode() => (idreserva, producteid, quantitat).GetHashCode();
     }
 }

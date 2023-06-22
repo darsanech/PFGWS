@@ -53,7 +53,7 @@ namespace PFGWS.Controllers
 
             }
             await db.CloseAsync();
-
+            await syncController.LoadData();
         }
     }
 }

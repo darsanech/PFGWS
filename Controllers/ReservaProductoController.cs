@@ -29,10 +29,17 @@ namespace PFGWS.Controllers
             await syncController.LoadData();
         }
 
+        bool Comparador(List<ReservaProducto> nReservaProd, List<ReservaProducto> oldReservaProd)
+        {
+
+            return true;
+        }
+
         public async Task Put(List<ReservaProducto> nReservaProd, List<ReservaProducto> oldReservaProd, int newidestado, int oldidestado)
         {
             var db = new SQLiteAsyncConnection(databasePath);
-            if (nReservaProd.Equals(oldReservaProd))
+
+            if (nReservaProd.SequenceEqual(oldReservaProd))
             {
                 if (newidestado != oldidestado)
                 {
