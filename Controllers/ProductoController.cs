@@ -50,10 +50,9 @@ namespace PFGWS.Controllers
                     prod.disponible += mod;
                 }
                 await db.UpdateAsync(prod);
-
+                await syncController.LoadData();
             }
             await db.CloseAsync();
-            await syncController.LoadData();
         }
     }
 }
